@@ -3,6 +3,7 @@
 ## v1.3.0
 
  - static class `DateTime` for manipulate with `Date`
+ - static class `Strings` for manipulate with strings
 
 ## v1.0.0
 
