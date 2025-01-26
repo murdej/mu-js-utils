@@ -1,5 +1,13 @@
 # Murdej JS utils
 
+## v1.4.0
+
+ - class `StrParser` (moved from mu-widget project)
+ - static class `Passwords`
+   - password strength calculator
+ - static class `DateTime`
+   - format Date like php function date
+
 ## v1.3.0
 
  - static class `DateTime` for manipulate with `Date`
