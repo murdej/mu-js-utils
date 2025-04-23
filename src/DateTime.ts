@@ -12,10 +12,16 @@ export class DateTime {
      *   - 'second': YYYY-MM-DDTHH:mm:ss
      * @returns {string} The formatted string.
      */
-    public static dateToInput(date: Date|null|string, accuracy: 'day'|'minute'|'second'): string
+    public static dateToInput(date: Date|null|string, accuracy: 'day'|'minute'|'second'|HTMLInputElement): string
     {
         if (typeof date === 'string') date = new Date(date);
         if (!date) return '';
+        if (accuracy instanceof HTMLInputElement) {
+            if (accuracy.type === 'date') accuracy = 'day';
+            else accuracy = (accuracy.step === '' || parseInt(accuracy.step) >= 60)
+                ? 'minute'
+                : 'second';
+        }
         switch (accuracy) {
             case 'day': return this.format(date, 'Y-m-d');
             case 'minute': return this.format(date, 'Y-m-d\TH:i');
@@ -69,17 +75,69 @@ export class DateTime {
         return res;
     }
 
-    public static modifyAdd(date: Date, seconds: number): Date
+    /**
+     *
+     * @param date
+     * @param seconds
+     */
+    public static modifyAdd(date: Date, ...seconds: (number|DateTimeAddStr)[]): Date
     {
-        date.setTime(date.getTime() + seconds * 1000);
+        for (const val of seconds) {
+
+            if (typeof val === 'number') {
+                date.setTime(date.getTime() + val * 1000);
+            } else {
+                const tmp = val.trim();
+                const p = tmp.indexOf(' ');
+                const num = parseInt(tmp.substring(0, p));
+                // @ts-ignore
+                let unit: DateTimeAddUnit = tmp.substring(p + 1).trim();
+                unit = unitAlias[unit] ?? unit;
+                switch (unit) {
+                    case 'seconds':
+                    case 'minutes':
+                    case 'hours':
+                        const sec = {
+                            seconds: 1,
+                            minutes: 60,
+                            hours: 3600,
+                        }[unit] * num;
+                        date.setTime(date.getTime() + sec * 1000);
+                        break;
+                    case "days":
+                        date.setDate(date.getDate() + num);
+                        break;
+                    case "weeks":
+                        date.setDate(date.getDate() + num * 7);
+                        break;
+                    case "months":
+                        date.setMonth(date.getMonth() + num);
+                        break;
+                    case "years":
+                        date.setFullYear(date.getFullYear() + num);
+                        break;
+                }
+            }
+        }
+
         return date;
     }
 
-    public static add(date: Date, seconds: number): Date
+    /**
+     *
+     * @param date
+     * @param seconds
+     */
+    public static add(date: Date, ...seconds: (number|DateTimeAddStr)[]): Date
     {
-        return this.modifyAdd(new Date(date), seconds);
+        return this.modifyAdd(new Date(date), ...seconds);
     }
 
+    /**
+     *
+     * @param value
+     * @param accuracy
+     */
     public static secondsToInput(value: number, accuracy: 'minute'|'seconds'): string
     {
         const s = value % 60;
@@ -92,7 +150,51 @@ export class DateTime {
             + (accuracy === 'seconds' ? `:${m.toString().padStart(2, '0')}` : '');
     }
 
-    public static dateFromInput(value: string) {
-
+    /**
+     *
+     * @param value
+     */
+    public static dateFromInput(value: null|string) {
+        return value
+            ? new Date(value)
+            : null;
     }
+
+    /**
+     *
+     * @param date
+     */
+    public static getWeekNumberISO(date: Date): number {
+        const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+        const dayNum = d.getUTCDay() || 7;
+        d.setUTCDate(d.getUTCDate() + 4 - dayNum);
+        const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
+        // @ts-ignore
+        return Math.ceil(((d - yearStart) / 86400000 + 1) / 7);
+    }
+
+    public static secondsFromInput(str: string): number
+    {
+        const [ h, m, s ] = str.split(':');
+        return parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s ?? 0);
+    }
+}
+
+type DateTimeAddUnit = 's' | 'second' | 'seconds' | 'm' | 'minute' | 'minutes' | 'h' | 'hour' | 'hours' | 'd' | 'day' | 'days' | 'w' | 'week' | 'weeks' | 'month' | 'months' | 'year' | 'years';
+
+export type DateTimeAddStr = `${number} ${DateTimeAddUnit}`;
+
+const unitAlias: Partial<Record<DateTimeAddUnit, DateTimeAddUnit>> = {
+    s: 'seconds',
+    second: 'seconds',
+    m: 'minutes',
+    minute: 'minutes',
+    h: 'hours',
+    hour: 'hours',
+    d: 'days',
+    day: 'days',
+    w: 'weeks',
+    week: 'weeks',
+    month: 'months',
+    year: 'years',
 }

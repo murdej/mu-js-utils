@@ -10,3 +10,20 @@ export function escapeHtml(src: string): string {
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
 }
+
+export function autosizeTextarea(textarea: HTMLElement, minHeight: null|string = null): void
+{
+    if (minHeight !== null) textarea.style.minHeight = minHeight;
+    const resizer = () => {
+        textarea.style.height = 'auto';
+        textarea.style.height = (
+            textarea.scrollHeight
+            + parseInt(window.getComputedStyle(textarea).paddingTop)
+            + parseInt(window.getComputedStyle(textarea).paddingBottom)
+            + parseInt(window.getComputedStyle(textarea).borderTopWidth)
+            + parseInt(window.getComputedStyle(textarea).borderBottomWidth)
+        ) + 'px';
+    }
+    textarea.addEventListener('input', resizer);
+    resizer();
+}
