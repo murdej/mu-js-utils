@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        exports = {};
+    </script>
+    <script src="../lib/Timer.js"></script>
+    <script type="module">
+        // import { Timer } from "../lib/Timer.js";
+        const Timer = exports.Timer;
+
+        export function sleepPromise(duration) {
+            return new Promise(resolve => setTimeout(resolve, duration));
+        }
+
+        function log(msg) {
+            console.log((new Date()).toISOString() + ': ' + msg);
+        }
+
+        (async () => {
+            log('Start');
+            const t = new Timer(4000);
+            await sleepPromise(2000);
+            // t.timeout = 100;
+            t.stop();
+            log('Wait');
+            await t.wait();
+            log('Finito');
+
+        })();
+    </script>
+
+</body>
+</html>

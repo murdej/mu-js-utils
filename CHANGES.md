@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.6.0
+
+ - smart `Timer` class
+
 ## v1.4.0
 
  - class `StrParser` (moved from mu-widget project)
