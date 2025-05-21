@@ -12,6 +12,7 @@
         exports = {};
     </script>
     <script src="../lib/Timer.js"></script>
+    <script src="../lib/CompletablePromise.js"></script>
     <script type="module">
         // import { Timer } from "../lib/Timer.js";
         const Timer = exports.Timer;
@@ -28,11 +29,16 @@
             log('Start');
             const t = new Timer(4000);
             await sleepPromise(2000);
-            // t.timeout = 100;
-            t.stop();
+            t.timeout = 3000;
+            // t.stop();
             log('Wait');
             await t.wait();
             log('Finito');
+
+            await sleepPromise(1000);
+            const c = new Completable();
+            c.wait().then(() => log('Done'));
+            c.done();
 
         })();
     </script>

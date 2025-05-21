@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.7.0
+
+ - `DateTime` method diff
+
 ## v1.6.0
 
  - smart `Timer` class

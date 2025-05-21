@@ -178,6 +178,16 @@ export class DateTime {
         const [ h, m, s ] = str.split(':');
         return parseInt(h) * 3600 + parseInt(m) * 60 + parseInt(s ?? 0);
     }
+
+    /**
+     * Returns diff bewteen dates in seconds
+     * @param a
+     * @param b
+     */
+    public static diff(a: Date, b: Date): number
+    {
+        return (a.getTime() - b.getTime()) / 1000;
+    }
 }
 
 type DateTimeAddUnit = 's' | 'second' | 'seconds' | 'm' | 'minute' | 'minutes' | 'h' | 'hour' | 'hours' | 'd' | 'day' | 'days' | 'w' | 'week' | 'weeks' | 'month' | 'months' | 'year' | 'years';
