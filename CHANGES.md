@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.8.0
+
+ - Class `DelayedSingleRun`
+
 ## v1.7.0
 
  - `DateTime` method diff

@@ -27,3 +27,28 @@ export function autosizeTextarea(textarea: HTMLElement, minHeight: null|string =
     textarea.addEventListener('input', resizer);
     resizer();
 }
+
+export function naNToNull(value: number): number|null
+{
+    return Number.isNaN(value) ? null : value;
+}
+
+export function makeHtmlElement<K extends keyof HTMLElementTagNameMap>(
+    tagName: K,
+    attributes: { [key: string]: string } = {},
+    content: null|string|HTMLElement|(string|HTMLElement)[] = null,
+): HTMLElementTagNameMap[K] {
+    const element = document.createElement(tagName);
+    for (const key in attributes) {
+        element.setAttribute(key, attributes[key]);
+    }
+    if (content) {
+        if (!Array.isArray(content)) content = [ content ];
+        // if (textContent) element.textContent = textContent;
+        for(const c of content) {
+            element.append(c);
+        }
+    }
+
+    return element;
+}
