@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.8.1
+
+ - `DelayedSingleRun` fix ms/s
+
 ## v1.8.0
 
  - Class `DelayedSingleRun`

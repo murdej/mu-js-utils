@@ -28,7 +28,7 @@ export class DelayedSingleRun {
 	public send(...args: any[]) {
 		this.lastSend = new Date();
 		setTimeout(() => {
-			const diff = (new Date().getTime() - this.lastSend.getTime()) / 1000;
+			const diff = (new Date().getTime() - this.lastSend.getTime());
 			if (diff >= this.timeout) {
 				this.callback(...args);
 			}
