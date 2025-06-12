@@ -6,6 +6,7 @@ export class DelayedSingleRun {
 	private callback: (...args: any[]) => void;
 	// @ts-ignore
 	private lastSend: Date;
+	private timeoutHandler: number|null = null;
 
 	/**
 	 * @constructor
@@ -26,8 +27,9 @@ export class DelayedSingleRun {
 	 * @param {...any[]} args - Arguments to be passed to the callback function.
 	 */
 	public send(...args: any[]) {
+		// if (this.timeoutHandler) clearTimeout(this.timeoutHandler);
 		this.lastSend = new Date();
-		setTimeout(() => {
+		this.timeoutHandler = setTimeout(() => {
 			const diff = (new Date().getTime() - this.lastSend.getTime());
 			if (diff >= this.timeout) {
 				this.callback(...args);

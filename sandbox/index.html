@@ -8,14 +8,26 @@
     <title>Document</title>
 </head>
 <body>
+    <span id="click">Click or doubleclick</span>
     <script>
         exports = {};
+        function require(n) {
+            switch(n) {
+                case './DelayedSingleRun':
+                    return {
+                        DelayedSingleRun: exports.DelayedSingleRun,
+                    };
+            }
+        }
     </script>
     <script src="../lib/Timer.js"></script>
+    <script src="../lib/DelayedSingleRun.js"></script>
     <script src="../lib/CompletablePromise.js"></script>
+    <script src="../lib/utils.js"></script>
     <script type="module">
         // import { Timer } from "../lib/Timer.js";
         const Timer = exports.Timer;
+
 
         export function sleepPromise(duration) {
             return new Promise(resolve => setTimeout(resolve, duration));
@@ -41,6 +53,12 @@
             c.done();
 
         })();
+
+        exports.handleClickAndDouble(
+            document.getElementById('click'),
+            () => console.log('click'),
+            () => console.log('dblclick'),
+        );
     </script>
 
 </body>

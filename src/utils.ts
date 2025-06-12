@@ -1,3 +1,5 @@
+import { DelayedSingleRun } from "./DelayedSingleRun";
+
 export function sleepPromise(duration: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, duration));
 }
@@ -51,4 +53,34 @@ export function makeHtmlElement<K extends keyof HTMLElementTagNameMap>(
     }
 
     return element;
+}
+
+/**
+ * 
+ * @param el 
+ * @param onClick 
+ * @param onDoubleClick 
+ * @param delay 
+ */
+export function handleClickAndDouble(
+    el: HTMLElement,
+    onClick: (ev: Event) => void,
+    onDoubleClick: (ev: Event) => void,
+    delay: number = 600,
+) {
+    let clickTimer: number|null = null;
+    el.addEventListener('click', function(ev: Event) {
+        if (clickTimer === null) {
+            clickTimer = setTimeout(() => {
+                onClick(ev)
+                clickTimer = null;
+            }, delay);
+        }
+    });
+
+    el.addEventListener('dblclick', function(ev: Event) {
+        if (clickTimer) clearTimeout(clickTimer);
+        clickTimer = null;
+        onDoubleClick(ev);
+    });
 }

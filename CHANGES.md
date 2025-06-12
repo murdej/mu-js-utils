@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.9.0
+
+- `handleClickAndDouble`
+
 ## v1.8.1
 
  - `DelayedSingleRun` fix ms/s
