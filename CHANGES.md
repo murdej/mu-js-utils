@@ -1,5 +1,10 @@
 # Murdej JS utils
 
+## v1.10.0
+
+ - `Arrays.remove`
+ - fix export `CompletionSource`
+
 ## v1.9.0
 
 - `handleClickAndDouble`

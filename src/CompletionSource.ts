@@ -1,4 +1,4 @@
-class CompletionSource<T>
+export class CompletionSource<T>
 {
     // @ts-ignore
     private resolver: (data:T)=>void;
