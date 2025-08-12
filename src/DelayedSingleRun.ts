@@ -1,5 +1,5 @@
 /**
- * A utility class that ensures that the callback function is executed only once in a given interval, if send is called multiple times in a given inerval the interval is extended with each call. The callback is called with the parameters of the last send.
+ * A utility class that ensures that the callback function is executed only once in a given interval, if send is called multiple times in a given interval the interval is extended with each call. The callback is called with the parameters of the last send.
  */
 export class DelayedSingleRun {
 	private timeout: number;
@@ -7,6 +7,7 @@ export class DelayedSingleRun {
 	// @ts-ignore
 	private lastSend: Date;
 	private timeoutHandler: number|null = null;
+	private doIgnoreNextSend: boolean = false;
 
 	/**
 	 * @constructor
@@ -28,12 +29,40 @@ export class DelayedSingleRun {
 	 */
 	public send(...args: any[]) {
 		// if (this.timeoutHandler) clearTimeout(this.timeoutHandler);
+		if (this.doIgnoreNextSend) {
+			this.doIgnoreNextSend = false;
+			return;
+		}
 		this.lastSend = new Date();
 		this.timeoutHandler = setTimeout(() => {
+			if (!this.timeoutHandler) return;
 			const diff = (new Date().getTime() - this.lastSend.getTime());
 			if (diff >= this.timeout) {
 				this.callback(...args);
 			}
 		}, this.timeout + 1)
+	}
+
+	/**
+	 * @description Cancel current waiting
+	 */
+	public cancel() {
+		if (this.timeout) clearTimeout(this.timeout);
+		this.timeout = 0;
+	}
+
+	/**
+	 * @description Execute callback immediately without waiting
+	 * @param args
+	 */
+	public runNow(...args: any[]) {
+		this.callback(...args);
+	}
+
+	/**
+	 * @description ignore one next call of .send()
+	 */
+	public ignoreNextSend() {
+		this.doIgnoreNextSend = true;
 	}
 }
