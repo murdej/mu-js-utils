@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.11.0
+
+ - `CompletionSource` metoda `reset`
+
 ## v1.10.0
 
  - `Arrays.remove`

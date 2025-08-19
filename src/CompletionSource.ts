@@ -2,7 +2,8 @@ export class CompletionSource<T>
 {
     // @ts-ignore
     private resolver: (data:T)=>void;
-    private promise: Promise<T> = new Promise<T>((resolve, reject) => this.resolver = resolve);
+    // @ts-ignore
+    private promise: Promise<T>;
 
     // @ts-ignore
     done(data: T = undefined) {
@@ -11,5 +12,13 @@ export class CompletionSource<T>
 
     wait(): Promise<T> {
         return this.promise;
+    }
+
+    reset(): void {
+        this.promise = new Promise<T>((resolve, reject) => this.resolver = resolve);
+    }
+
+    constructor() {
+        this.reset();
     }
 }
