@@ -23,6 +23,7 @@
     <script src="../lib/Timer.js"></script>
     <script src="../lib/DelayedSingleRun.js"></script>
     <script src="../lib/CompletablePromise.js"></script>
+    <script src="../lib/Arrays.js"></script>
     <script src="../lib/utils.js"></script>
     <script type="module">
         // import { Timer } from "../lib/Timer.js";
@@ -54,11 +55,20 @@
 
         })();
 
+        log('---------------------------------------');
         exports.handleClickAndDouble(
             document.getElementById('click'),
             () => console.log('click'),
             () => console.log('dblclick'),
         );
+        log('---------------------------------------');
+
+        console.log(exports.Arrays.intersect(
+            [ {a: 1}, {a: 3}, {a: 4}, ],
+            [ {a: 1, t: 'ww'}, {a: 2, t: 'ee'}, {a: 3, t: 'rr'}, ],
+            i=>i.a,
+            i=>i.a,
+        ));
     </script>
 
 </body>

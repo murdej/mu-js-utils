@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.12.0
+
+ - `Arrays`.`intersect`
+
 ## v1.11.0
 
  - `CompletionSource` metoda `reset`
