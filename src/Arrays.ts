@@ -10,7 +10,7 @@ export class Arrays {
         if (!getKey1Callback) getKey1Callback = (item)=> item as unknown as K;
         if (!getKey2Callback) getKey2Callback = (item)=> item as unknown as K;
         const map = new Map(array2.map(obj => [getKey2Callback(obj), obj]));
-        
+
         return array1.reduce((accumulator: [T1,T2][], obj1) => {
             const key = getKey1Callback(obj1);
             if (map.has(key)) {

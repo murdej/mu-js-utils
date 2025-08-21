@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.13.0
+
+ - `Triggers`
+
 ## v1.12.0
 
  - `Arrays`.`intersect`
