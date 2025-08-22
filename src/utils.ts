@@ -38,7 +38,7 @@ export function naNToNull(value: number): number|null
 export function makeHtmlElement<K extends keyof HTMLElementTagNameMap>(
     tagName: K,
     attributes: { [key: string]: string } = {},
-    content: null|string|HTMLElement|(string|HTMLElement)[] = null,
+    content: null|string|HTMLElement|(string|HTMLElement|null)[] = null,
 ): HTMLElementTagNameMap[K] {
     const element = document.createElement(tagName);
     for (const key in attributes) {
@@ -48,7 +48,8 @@ export function makeHtmlElement<K extends keyof HTMLElementTagNameMap>(
         if (!Array.isArray(content)) content = [ content ];
         // if (textContent) element.textContent = textContent;
         for(const c of content) {
-            element.append(c);
+            if (c !== null)
+                element.append(c);
         }
     }
 
