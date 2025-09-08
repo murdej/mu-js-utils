@@ -1,5 +1,9 @@
 # Murdej JS utils
 
+## v1.14.0
+
+ - classs `CachedData`
+
 ## v1.13.1
 
  - In the `makeHtmlElement` function, it is possible to use `null` in the `content` argument. In this case, the element will be skipped.
