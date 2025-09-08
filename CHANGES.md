@@ -2,7 +2,7 @@
 
 ## v1.14.0
 
- - classs `CachedData`
+ - class `CachedData`
 
 ## v1.13.1
 
