@@ -32,6 +32,9 @@ const cd = new CachedDataTest();
             console.log(cd.ma100(p));
         }
     }
+    cd.set('images', 'brekeke', 1, 'a');
+    cd.set('images', 'brekeke', 2, 'b');
+    cd.set('images', 'brekeke', 3, 'c');
     const getImage = cd.useEntry(
         'images',
         (a:number, b:string)=> {
@@ -43,7 +46,8 @@ const cd = new CachedDataTest();
     for(let i = 0; i < 20; i++) {
         for (const p of ['a', 'b', 'c']) {
             await sleepPromise(10);
-            console.log(getImage(42, p));
+            console.log(getImage(i, p));
         }
     }
+    console.log(cd);
 })();

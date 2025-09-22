@@ -1,5 +1,12 @@
 # Murdej JS utils
 
+## v1.15.0
+
+ - function `placeElementAt` - Places an HTML element at a specific position within a container.
+ - function `createHTMLElementFromString` - Creates an HTML element from a string of HTML code.
+ - 
+
+
 ## v1.14.0
 
  - class `CachedData`

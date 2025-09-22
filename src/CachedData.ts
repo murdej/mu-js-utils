@@ -23,14 +23,30 @@ export class CachedData {
         const cacheKey = this.getCacheKey(key, args);
         const cacheEntry = this.cachedData[cacheKey];
         if (!cacheEntry || !this.validateCache(cacheValidator, cacheEntry, ...args)) {
-            this.cachedData[cacheKey] = {
-                data: getter(...args),
-                getTime: Date.now(),
-            };
+            this.set(key, getter(...args), ...args);
         }
 
         return this.cachedData[cacheKey].data;
     }
+
+    /**
+     * Put value into cache
+     * @param key
+     * @param value
+     * @param args
+     */
+    public set(
+        key: string,
+        value: any,
+        ...args: any[]
+    ): void {
+        const cacheKey = this.getCacheKey(key, args);
+        this.cachedData[cacheKey] = {
+            data: value,
+            getTime: Date.now(),
+        };
+    }
+
 
     /**
     * Creates and returns a function that is a wrapper for the `get` method.

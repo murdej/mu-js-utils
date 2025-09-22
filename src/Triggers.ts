@@ -35,6 +35,10 @@ export class Triggers<T = string> {
         this.dispatch(name, ...args);
     }
 
+    public static reset() {
+        this.handlers = {};
+    }
+
     protected static handlers: Record<string, Trigger[]> = {};
 
     public static useLog = false;
