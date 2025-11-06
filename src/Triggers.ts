@@ -1,11 +1,10 @@
-import {Arrays} from "./Arrays";
-
 export class Triggers<T = string> {
-    public static addHandler(names: string|string[], handler: TriggerCallback) {
+    public static addHandler(names: string|string[], handler: TriggerCallback, oneTime: boolean = false) {
         for(const name of (typeof names === "string" ? [ names ] : names)) {
             this.handlers[name] = this.handlers[name] ?? [];
             this.handlers[name].push({
-                callback: handler
+                callback: handler,
+                oneTime,
             })
         }
     }
@@ -22,12 +21,19 @@ export class Triggers<T = string> {
 
     public static dispatch(name: string, ...args: any[]) {
         if (this.useLog) console.log(['Dispatching "' + name + '"', args]);
+        let rm = false;
         for(const handler of this.handlers[name] ?? []) {
             if (this.useLog) console.log([' - Handler', handler]);
             const ev: TriggerEvent = {
                 name
             };
             handler.callback(ev, ...args);
+            if (handler.oneTime) rm = true;
+        }
+        if (rm) {
+            this.handlers[name] = this.handlers[name].filter(
+                itemHandler => !itemHandler.oneTime
+            );
         }
     }
 
@@ -37,6 +43,17 @@ export class Triggers<T = string> {
 
     public static reset() {
         this.handlers = {};
+    }
+
+    public static waitFor(name: string): Promise<any[]>
+    {
+        return new Promise((resolve, reject) => {
+            this.addHandler(
+                name,
+                (...args: any[]) => resolve(args),
+                true
+            );
+        });
     }
 
     protected static handlers: Record<string, Trigger[]> = {};
@@ -52,4 +69,5 @@ export type TriggerEvent = {
 
 export type Trigger = {
     callback: TriggerCallback,
+    oneTime: boolean,
 }

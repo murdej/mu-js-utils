@@ -65,9 +65,13 @@
         log('-Triggers--------------------------------------');
         const c = (ev, a, b, c) => log(['handled', ev, a, b, c]);
         exports.Triggers.addHandler('a', c);
+        exports.Triggers.addHandler('a', (a) => console.log('onetime ' + a), true);
+        exports.Triggers.waitFor('a').then(() => log('waitFor.resolved'));
         exports.Triggers.dispatch('a', 1);
-        exports.Triggers.removeHandler('a', c);
         exports.Triggers.dispatch('a', 2);
+        exports.Triggers.dispatch('a', 3);
+        exports.Triggers.removeHandler('a', c);
+        exports.Triggers.dispatch('a', 10);
         log('---------------------------------------');
 
         console.log(exports.Arrays.intersect(
