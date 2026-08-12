@@ -1,5 +1,10 @@
 # Murdej JS utils
 
+## v1.17.0
+
+ - `DateTime`.`startOfDay`
+ - `DateTime`.`secondsAfterMidnight`
+
 ## v1.16.0
 
  - `Triggers` - oneTime handler

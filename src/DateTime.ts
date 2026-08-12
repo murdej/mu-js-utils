@@ -188,6 +188,17 @@ export class DateTime {
     {
         return (a.getTime() - b.getTime()) / 1000;
     }
+
+    public static startOfDay(date: Date): Date
+    {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }
+
+    public static secondsAfterMidnight(date: Date): number {
+        return date.getHours() * 3600 + date.getMinutes() * 60 + date.getSeconds();
+    }
 }
 
 type DateTimeAddUnit = 's' | 'second' | 'seconds' | 'm' | 'minute' | 'minutes' | 'h' | 'hour' | 'hours' | 'd' | 'day' | 'days' | 'w' | 'week' | 'weeks' | 'month' | 'months' | 'year' | 'years';
